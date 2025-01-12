@@ -1,9 +1,8 @@
 # programmer and owner mmdrza.com
 import os
-
 from . import Generator, Convertor
 from . import (
-    Bitcoin, BitcoinGold, Dash, DigiByte, Dogecoin, Ethereum, Litecoin, Qtum, Ravencoin, Tron, Zcash
+    Bitcoin, BitcoinGold, Dash, DigiByte, Dogecoin, Ethereum, Litecoin, Qtum, Ravencoin, Tron, Zcash, Axe
 )
 
 # ----------------------------------------------------------
@@ -49,6 +48,7 @@ def getMnemonic(size: int = 12) -> str:
     """
     return generator.generate_mnemonic(size=size)
 
+
 # ----------------------------------------------------------
 def getBinary() -> str:
     """
@@ -68,6 +68,7 @@ def getBinary() -> str:
     """
     return generator.generate_binary()
 
+
 # ----------------------------------------------------------
 def getRootKey() -> str:
     """
@@ -84,14 +85,17 @@ def getRootKey() -> str:
     ------------------------------------------------
 
     """
-    
+
     return generator.generate_xprv()
+
 
 # -------------------------------------------------------------------
 def getBytes() -> bytes: return os.urandom(32)
 
+
 # -------------------------------------------------------------------
 def getDecimal() -> int: return generator.generate_decimal()
+
 
 # -------------------------------------------------------------------
 def PrivateKey_To_Addr(hexed: str, compress: bool = False) -> str:
@@ -144,7 +148,7 @@ def PrivateKey_To_Wif(hexed: str, compress: bool = False) -> str:
     ------------------------------------------------------------
 
     """
-    
+
     seed = convertor.hex_to_bytes(hexed)
     if compress:
         return convertor.bytes_to_wif(seed, True)
@@ -201,7 +205,7 @@ def PrivateKey_To_Mnemonic(hexed: str) -> str:
 
     """
     seed = convertor.hex_to_bytes(hexed)
-    return convertor.bytes_to_mne(seed)
+    return convertor.bytes_to_mnemonic(seed)
 
 
 # ----------------------------------------------------------
@@ -436,7 +440,7 @@ def Bytes_To_Mnemonic(seed: bytes) -> str:
     
     
     """
-    return convertor.bytes_to_mne(seed)
+    return convertor.bytes_to_mnemonic(seed)
 
 
 # ----------------------------------------------------------
@@ -505,7 +509,7 @@ def Bytes_To_PublicKey(seed: bytes, compress: bool = False):
     --------------------------------------------------------
     
     """
-    
+
     if compress:
         return convertor.bytes_to_public(seed, True).hex()
     else:
@@ -582,6 +586,7 @@ def Bytes_To_Decimal(seed: bytes):
 def Bytes_To_XPUB(seed: bytes) -> str:
     return convertor.bytes_to_xpub(seed)
 
+
 # ----------------------------------------------------------
 def Bytes_To_Wif(seed: bytes, compress: bool = False) -> str:
     """
@@ -609,7 +614,7 @@ def Bytes_To_Wif(seed: bytes, compress: bool = False) -> str:
         return convertor.bytes_to_wif(seed, True)
     else:
         return convertor.bytes_to_wif(seed, False)
-    
+
 
 # ----------------------------------------------------------
 def Mnemonic_To_Bytes(mnemonic: str) -> bytes:
@@ -619,7 +624,7 @@ def Mnemonic_To_Bytes(mnemonic: str) -> bytes:
 # ----------------------------------------------------------
 def Mnemonic_To_PrivateKey(mnemonic: str) -> str:
     seed = convertor.mne_to_seed(mnemonic=mnemonic)
-    return convertor.bytes_to_hex(seed=seed)
+    return convertor.bytes_to_hex(seed=seed)[:64]
 
 
 # ----------------------------------------------------------
@@ -673,7 +678,7 @@ def Mnemonic_To_Wif(mnemonic: str, compress: bool = False) -> str:
         return convertor.bytes_to_wif(seedBytes, True)
     else:
         return convertor.bytes_to_wif(seedBytes, False)
-    
+
 
 # ----------------------------------------------------------
 def Passphrase_To_Addr(passphrase: str, compress: bool = False) -> str:
@@ -746,7 +751,7 @@ def Wif_To_PrivateKey(wif: str) -> str:
 
 # ----------------------------------------------------------
 def Wif_To_Mnemonic(wif: str) -> str:
-    return convertor.bytes_to_mne(convertor.wif_to_bytes(wif))
+    return convertor.bytes_to_mnemonic(convertor.wif_to_bytes(wif))
 
 
 # ----------------------------------------------------------
@@ -763,8 +768,10 @@ def Wif_To_Binary(wif: str) -> str:
 def Wif_To_XPRV(wif: str) -> str:
     return convertor.bytes_to_xprv(convertor.wif_to_bytes(wif))
 
+
 # ----------------------------------------------------------
 def Wif_To_XPUB(wif: str) -> str: return convertor.bytes_to_xpub(convertor.wif_to_bytes(wif))
+
 
 # ----------------------------------------------------------
 def Wif_To_RootKey(wif: str) -> str:
@@ -811,7 +818,7 @@ def Decimal_To_Address(dec: int, compress: bool = False) -> str:
 # ----------------------------------------------------------
 def Decimal_To_Mnemonic(dec: int) -> str:
     seed = convertor.int_to_bytes(dec)
-    return convertor.bytes_to_mne(seed)
+    return convertor.bytes_to_mnemonic(seed)
 
 
 # ----------------------------------------------------------
@@ -819,10 +826,12 @@ def Decimal_To_XPRV(dec: int) -> str:
     seed = convertor.int_to_bytes(dec)
     return convertor.bytes_to_xprv(seed)
 
+
 # ----------------------------------------------------------
 def Decimal_To_XPUB(dec: int) -> str:
     seed = convertor.int_to_bytes(dec)
     return convertor.bytes_to_xpub(seed)
+
 
 # ----------------------------------------------------------
 def Decimal_To_Binary(dec: int) -> str:
@@ -836,6 +845,7 @@ def Decimal_To_Wif(dec: int, compress: bool = False) -> str:
         return convertor.bytes_to_wif(seed, True)
     else:
         return convertor.bytes_to_wif(seed, False)
+
 
 # ----------------------------------------------------------
 def Binary_To_Bytes(binary_str: str) -> bytes:
@@ -856,7 +866,8 @@ def Binary_To_PrivateKey(binary_str: str) -> str: return convertor.bytes_to_hex(
 
 
 # ----------------------------------------------------------
-def Binary_To_Mnemonic(binary_str: str) -> str: return convertor.bytes_to_mne(convertor.binary_to_bytes(binary_str))
+def Binary_To_Mnemonic(binary_str: str) -> str: return convertor.bytes_to_mnemonic(
+    convertor.binary_to_bytes(binary_str))
 
 
 # ----------------------------------------------------------
@@ -868,11 +879,14 @@ def Binary_To_XPUB(binary_str: str) -> str: return convertor.bytes_to_xpub(conve
 
 
 # ----------------------------------------------------------
-def Binary_To_Wif(binary_str: str, compress: bool = False) -> str: return convertor.bytes_to_wif(convertor.binary_to_bytes(binary_str), compress)
+def Binary_To_Wif(binary_str: str, compress: bool = False) -> str: return convertor.bytes_to_wif(
+    convertor.binary_to_bytes(binary_str), compress)
 
 
 # ----------------------------------------------------------
-def Binary_To_PublicKey(binary_str: str, compress: bool = False) -> str: return convertor.bytes_to_public(convertor.binary_to_bytes(binary_str), compress).hex()
+def Binary_To_PublicKey(binary_str: str, compress: bool = False) -> str: return convertor.bytes_to_public(
+    convertor.binary_to_bytes(binary_str), compress).hex()
+
 
 # ----------------------------------------------------------
 def Binary_To_Decimal(binary_str: str) -> int: return convertor.bytes_to_int(convertor.binary_to_bytes(binary_str))
@@ -881,19 +895,30 @@ def Binary_To_Decimal(binary_str: str) -> int: return convertor.bytes_to_int(con
 # ----------------------------------------------------------
 def XPRV_To_Bytes(xprv: str) -> bytes: return convertor.xprv_to_bytes(xprv)
 
+
 def XPRV_To_PrivateKey(xprv: str) -> str: return convertor.bytes_to_hex(convertor.xprv_to_bytes(xprv))
 
-def XPRV_To_PublicKey(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_public(convertor.xprv_to_bytes(xprv), compress).hex()
 
-def XPRV_To_Wif(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_wif(convertor.xprv_to_bytes(xprv), compress)
+def XPRV_To_PublicKey(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_public(
+    convertor.xprv_to_bytes(xprv), compress).hex()
 
-def XPRV_To_Address(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_addr(convertor.xprv_to_bytes(xprv), compress)
 
-def XPRV_To_Mnemonic(xprv: str) -> str: return convertor.bytes_to_mne(convertor.xprv_to_bytes(xprv))
+def XPRV_To_Wif(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_wif(convertor.xprv_to_bytes(xprv),
+                                                                                         compress)
+
+
+def XPRV_To_Address(xprv: str, compress: bool = False) -> str: return convertor.bytes_to_addr(
+    convertor.xprv_to_bytes(xprv), compress)
+
+
+def XPRV_To_Mnemonic(xprv: str) -> str: return convertor.bytes_to_mnemonic(convertor.xprv_to_bytes(xprv))
+
 
 def XPRV_To_XPUB(xprv: str) -> str: return convertor.bytes_to_xpub(convertor.xprv_to_bytes(xprv))
 
+
 def XPRV_To_Decimal(xprv: str) -> int: return convertor.bytes_to_int(convertor.xprv_to_bytes(xprv))
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_Bitcoin_Addr(privatekey: str, Type: str = 'p2pkh') -> str:
@@ -925,17 +950,24 @@ def PrivateKey_To_Bitcoin_Addr(privatekey: str, Type: str = 'p2pkh') -> str:
     
     """
     BTC = Bitcoin()
-    if Type == 'p2pkh': return BTC.hex_addr(privatekey, 'p2pkh')
-    elif Type == 'p2sh': return BTC.hex_addr(privatekey, 'p2sh')
-    elif Type == 'p2wpkh': return BTC.hex_addr(privatekey, 'p2wpkh')
-    elif Type == 'p2wsh': return BTC.hex_addr(privatekey, 'p2wsh')
-    elif Type == 'p2wpkh_p2sh': return BTC.hex_addr(privatekey, 'p2wpkh_p2sh')
-    elif Type == 'p2wsh_p2sh': return BTC.hex_addr(privatekey, 'p2wsh_p2sh')
-    else: return BTC.hex_addr(privatekey, 'p2pkh')
+    if Type == 'p2pkh':
+        return BTC.hex_addr(privatekey, 'p2pkh')
+    elif Type == 'p2sh':
+        return BTC.hex_addr(privatekey, 'p2sh')
+    elif Type == 'p2wpkh':
+        return BTC.hex_addr(privatekey, 'p2wpkh')
+    elif Type == 'p2wsh':
+        return BTC.hex_addr(privatekey, 'p2wsh')
+    elif Type == 'p2wpkh_p2sh':
+        return BTC.hex_addr(privatekey, 'p2wpkh_p2sh')
+    elif Type == 'p2wsh_p2sh':
+        return BTC.hex_addr(privatekey, 'p2wsh_p2sh')
+    else:
+        return BTC.hex_addr(privatekey, 'p2pkh')
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_Ethereum_Addr(privatekey: str) -> str:
-    
     """
     
     Convert Private Key To Ethereum Address.
@@ -957,6 +989,7 @@ def PrivateKey_To_Ethereum_Addr(privatekey: str) -> str:
     """
     ETH = Ethereum()
     return ETH.hex_addr(privatekey)
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_BitcoinGold_Addr(privatekey: str) -> str:
@@ -982,6 +1015,7 @@ def PrivateKey_To_BitcoinGold_Addr(privatekey: str) -> str:
     BTG = BitcoinGold()
     return BTG.hex_addr(privatekey)
 
+
 # ----------------------------------------------------------
 def PrivateKey_To_Dash_Addr(privatekey: str) -> str:
     """
@@ -1005,6 +1039,7 @@ def PrivateKey_To_Dash_Addr(privatekey: str) -> str:
     """
     DASH = Dash()
     return DASH.hex_addr(privatekey)
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_DigiByte_Addr(privatekey: str) -> str:
@@ -1030,6 +1065,7 @@ def PrivateKey_To_DigiByte_Addr(privatekey: str) -> str:
     DGB = DigiByte()
     return DGB.hex_addr(privatekey)
 
+
 # ----------------------------------------------------------
 def PrivateKey_To_Tron_Addr(privatekey: str) -> str:
     """
@@ -1053,6 +1089,7 @@ def PrivateKey_To_Tron_Addr(privatekey: str) -> str:
     """
     TRX = Tron()
     return TRX.hex_addr(privatekey)
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_Litecoin_Addr(privatekey: str, Type: str = 'p2pkh') -> str:
@@ -1082,13 +1119,21 @@ def PrivateKey_To_Litecoin_Addr(privatekey: str, Type: str = 'p2pkh') -> str:
     
     """
     LTC = Litecoin()
-    if Type == 'p2pkh': return LTC.hex_addr(privatekey, 'p2pkh')
-    elif Type == 'p2sh': return LTC.hex_addr(privatekey, 'p2sh')
-    elif Type == 'p2wpkh': return LTC.hex_addr(privatekey, 'p2wpkh')
-    elif Type == 'p2wsh': return LTC.hex_addr(privatekey, 'p2wsh')
-    elif Type == 'p2wpkh_p2sh': return LTC.hex_addr(privatekey, 'p2wpkh_p2sh')
-    elif Type == 'p2wsh_p2sh': return LTC.hex_addr(privatekey, 'p2wsh_p2sh')
-    else: return LTC.hex_addr(privatekey, 'p2pkh')
+    if Type == 'p2pkh':
+        return LTC.hex_addr(privatekey, 'p2pkh')
+    elif Type == 'p2sh':
+        return LTC.hex_addr(privatekey, 'p2sh')
+    elif Type == 'p2wpkh':
+        return LTC.hex_addr(privatekey, 'p2wpkh')
+    elif Type == 'p2wsh':
+        return LTC.hex_addr(privatekey, 'p2wsh')
+    elif Type == 'p2wpkh_p2sh':
+        return LTC.hex_addr(privatekey, 'p2wpkh_p2sh')
+    elif Type == 'p2wsh_p2sh':
+        return LTC.hex_addr(privatekey, 'p2wsh_p2sh')
+    else:
+        return LTC.hex_addr(privatekey, 'p2pkh')
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_Zcash_Addr(privatekey: str) -> str:
@@ -1114,6 +1159,7 @@ def PrivateKey_To_Zcash_Addr(privatekey: str) -> str:
     ZEC = Zcash()
     return ZEC.hex_addr(privatekey)
 
+
 # ----------------------------------------------------------
 def PrivateKey_To_Qtum_Addr(privatekey: str) -> str:
     """
@@ -1138,6 +1184,7 @@ def PrivateKey_To_Qtum_Addr(privatekey: str) -> str:
     QTUM = Qtum()
     return QTUM.hex_addr(privatekey)
 
+
 # ----------------------------------------------------------
 def PrivateKey_To_Ravencoin_Addr(privatekey: str) -> str:
     """
@@ -1161,6 +1208,7 @@ def PrivateKey_To_Ravencoin_Addr(privatekey: str) -> str:
     """
     RVN = Ravencoin()
     return RVN.hex_addr(privatekey)
+
 
 # ----------------------------------------------------------
 def PrivateKey_To_Dogecoin_Addr(privatekey: str) -> str:
@@ -1187,7 +1235,9 @@ def PrivateKey_To_Dogecoin_Addr(privatekey: str) -> str:
     return DOGE.hex_addr(privatekey)
 
 
-
+def PrivateKey_To_Axe_Addr(privatekey: str) -> str:
+    axe = Axe()
+    return axe.hex_addr(privatekey)
 
 
 if __name__ == "__main__" and __package__ is None:

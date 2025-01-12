@@ -2,6 +2,7 @@
 
 # Import modules
 from .utils import Convertor, Generator
+from .bip39 import Mnemonic
 from .hd import (
     Axe,
     Bitcoin,
@@ -14,11 +15,12 @@ from .hd import (
     Qtum,
     Ravencoin,
     Tron,
+    Ton,
     Zcash,
 )
 
 # Metadata
-__version__ = "v1.3.6"
+__version__ = "18.6.0"
 __license__ = "MIT"
 __author__ = "Mohammadreza (MMDRZA)"
 __email__ = "PyMmdrza@gmail.com"
@@ -37,14 +39,17 @@ __all__ = [
     # Core modules
     "Wallet",
     "assest",
+    "bip39",
+    "block",
     "bs58",
     "utils",
     "hd",
     "CLI",
-    
+
     # Classes
     "Convertor",
     "Generator",
+    "Mnemonic",
 
     # Blockchain-specific classes
     "Axe",
@@ -58,5 +63,6 @@ __all__ = [
     "Qtum",
     "Ravencoin",
     "Tron",
+    "Ton",
     "Zcash"
 ]
